@@ -6,12 +6,11 @@ public class ShoppingCartWithDiscount {
     private Map<String, Double> items = new HashMap<>();
     private DiscountService discountService;
 
-    // Constructor Injection
+
     public ShoppingCartWithDiscount(DiscountService discountService) {
         this.discountService = discountService;
     }
 
-    // Add item
     public void addItem(String item, double price) {
         if (item == null || price < 0) {
             throw new IllegalArgumentException("Invalid item or price");
@@ -19,7 +18,6 @@ public class ShoppingCartWithDiscount {
         items.put(item, price);
     }
 
-    // Remove item
     public void removeItem(String item) {
         if (!items.containsKey(item)) {
             throw new IllegalArgumentException("Item not found in cart");
@@ -27,7 +25,6 @@ public class ShoppingCartWithDiscount {
         items.remove(item);
     }
 
-    // Get final price after discount
     public double getTotalPrice() {
         double total = items.values()
                             .stream()
@@ -38,4 +35,5 @@ public class ShoppingCartWithDiscount {
 
         return total - (total * discount / 100);
     }
+
 }
