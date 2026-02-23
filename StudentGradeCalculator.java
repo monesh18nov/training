@@ -5,7 +5,7 @@ public class StudentGradeCalculator {
 
     private List<Integer> marks = new ArrayList<>();
 
-    // Add marks
+
     public void addMarks(int mark) {
         if (mark < 0) {
             throw new IllegalArgumentException("Marks cannot be negative");
@@ -13,7 +13,7 @@ public class StudentGradeCalculator {
         marks.add(mark);
     }
 
-    // Calculate average
+
     public double calculateAverage() {
         if (marks.isEmpty()) {
             throw new IllegalStateException("No marks added");
@@ -27,9 +27,10 @@ public class StudentGradeCalculator {
         return (double) sum / marks.size();
     }
 
-    // PASS if average >= 40
+    
     public String getResult() {
         double average = calculateAverage();
         return average >= 40 ? "PASS" : "FAIL";
     }
+
 }
