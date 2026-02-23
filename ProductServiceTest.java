@@ -7,82 +7,76 @@ import java.util.function.Function;
 
 public class ProductServiceTest {
 
-    // 1️⃣ Verify 10% discount applied correctly
     @Test
     void testTenPercentDiscount() {
 
-        Function<Product, Double> tenPercentDiscount =
-                product -> product.getPrice() * 0.9;
+        Function<Product, Double> discountTen =
+                item -> item.getPrice() * 0.9;
 
-        ProductService service = new ProductService(tenPercentDiscount);
+        ProductService service = new ProductService(discountTen);
 
-        Product product = new Product("Laptop", 1000);
+        Product item = new Product("Monitor", 1200);
 
-        assertEquals(900, service.applyDiscount(product));
+        assertEquals(1080, service.applyDiscount(item));
     }
 
-    // 2️⃣ Ensure 0% discount returns original price
     @Test
     void testZeroPercentDiscount() {
 
-        Function<Product, Double> zeroDiscount =
-                product -> product.getPrice();
+        Function<Product, Double> noDiscount =
+                item -> item.getPrice();
 
-        ProductService service = new ProductService(zeroDiscount);
+        ProductService service = new ProductService(noDiscount);
 
-        Product product = new Product("Mobile", 500);
+        Product item = new Product("Headset", 700);
 
-        assertEquals(500, service.applyDiscount(product));
+        assertEquals(700, service.applyDiscount(item));
     }
 
-    // 3️⃣ Verify negative price throws exception
     @Test
     void testNegativePriceThrowsException() {
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Product("Tablet", -100);
+            new Product("Keyboard", -200);
         });
     }
 
-    // 4️⃣ Multiple products discounted using Stream
     @Test
     void testMultipleProductsDiscounted() {
 
-        Function<Product, Double> tenPercentDiscount =
-                product -> product.getPrice() * 0.9;
+        Function<Product, Double> discountTen =
+                item -> item.getPrice() * 0.9;
 
-        ProductService service = new ProductService(tenPercentDiscount);
+        ProductService service = new ProductService(discountTen);
 
-        List<Product> products = Arrays.asList(
-                new Product("Laptop", 1000),
-                new Product("Mobile", 500)
+        List<Product> items = Arrays.asList(
+                new Product("Monitor", 1200),
+                new Product("Mouse", 400)
         );
 
-        List<Double> discountedPrices = service.applyDiscountToAll(products);
+        List<Double> prices = service.applyDiscountToAll(items);
 
-        assertEquals(900, discountedPrices.get(0));
-        assertEquals(450, discountedPrices.get(1));
+        assertEquals(1080, prices.get(0));
+        assertEquals(360, prices.get(1));
     }
 
-    // 5️⃣ Ensure discount function can be swapped dynamically
     @Test
     void testDynamicDiscountSwap() {
 
-        Function<Product, Double> tenPercent =
-                product -> product.getPrice() * 0.9;
+        Function<Product, Double> discountTen =
+                item -> item.getPrice() * 0.9;
 
-        Function<Product, Double> fiftyPercent =
-                product -> product.getPrice() * 0.5;
+        Function<Product, Double> discountHalf =
+                item -> item.getPrice() * 0.5;
 
-        ProductService service = new ProductService(tenPercent);
+        ProductService service = new ProductService(discountTen);
 
-        Product product = new Product("Laptop", 1000);
+        Product item = new Product("Monitor", 1200);
 
-        assertEquals(900, service.applyDiscount(product));
+        assertEquals(1080, service.applyDiscount(item));
 
-        // Change discount dynamically
-        service.setDiscountFunction(fiftyPercent);
+        service.setDiscountFunction(discountHalf);
 
-        assertEquals(500, service.applyDiscount(product));
+        assertEquals(600, service.applyDiscount(item));
     }
 }
