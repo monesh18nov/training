@@ -1,34 +1,34 @@
 public class BankAccount {
 
-    private double balance;
+    private double accountBalance;
 
-    public BankAccount(double initialBalance) {
-        if (initialBalance < 0) {
+    public BankAccount(double openingBalance) {
+        if (openingBalance < 0) {
             throw new IllegalArgumentException("Initial balance cannot be negative");
         }
-        this.balance = initialBalance;
+        this.accountBalance = openingBalance;
     }
 
-    public void deposit(double amount) {
-        if (amount <= 0) {
+    public void deposit(double depositAmount) {
+        if (depositAmount <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive");
         }
-        balance += amount;
+        accountBalance += depositAmount;
     }
 
-    public void withdraw(double amount) {
-        if (amount <= 0) {
+    public void withdraw(double withdrawAmount) {
+        if (withdrawAmount <= 0) {
             throw new IllegalArgumentException("Withdraw amount must be positive");
         }
 
-        if (amount > balance) {
+        if (withdrawAmount > accountBalance) {
             throw new IllegalArgumentException("Insufficient balance");
         }
 
-        balance -= amount;
+        accountBalance -= withdrawAmount;
     }
 
     public double getBalance() {
-        return balance;
+        return accountBalance;
     }
 }
