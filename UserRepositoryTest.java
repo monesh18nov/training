@@ -4,60 +4,53 @@ import org.junit.jupiter.api.Test;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class UserRepositoryTest {
+public class CustomerStoreTest {
 
-    private UserRepository repository = new UserRepository();
+    private CustomerStore store = new CustomerStore();
 
-    // 1️⃣ Valid user ID returns non-empty Optional
     @Test
-    void testValidUserId() {
+    void testExistingCustomerId() {
 
-        Optional<User> user = repository.findById(1);
+        Optional<Customer> result = store.fetchById(10);
 
-        assertTrue(user.isPresent());
-        assertEquals("Gaurav", user.get().getName());
+        assertTrue(result.isPresent());
+        assertEquals("Arjun", result.get().getUsername());
     }
 
-    // 2️⃣ Invalid user ID returns Optional.empty()
     @Test
-    void testInvalidUserId() {
+    void testNonExistingCustomerId() {
 
-        Optional<User> user = repository.findById(100);
+        Optional<Customer> result = store.fetchById(999);
 
-        assertFalse(user.isPresent());
+        assertFalse(result.isPresent());
     }
 
-    // 3️⃣ get() on empty Optional throws exception
     @Test
-    void testGetOnEmptyOptionalThrowsException() {
+    void testGetOnEmptyResultThrowsException() {
 
-        Optional<User> user = repository.findById(100);
+        Optional<Customer> result = store.fetchById(999);
 
-        assertThrows(NoSuchElementException.class, () -> {
-            user.get();
-        });
+        assertThrows(NoSuchElementException.class, result::get);
     }
 
-    // 4️⃣ orElse() returns default user when ID not found
     @Test
-    void testOrElseReturnsDefaultUser() {
+    void testOrElseReturnsFallbackCustomer() {
 
-        User defaultUser = new User(0, "Default");
+        Customer fallback = new Customer(0, "Guest");
 
-        User user = repository.findById(100)
-                              .orElse(defaultUser);
+        Customer result = store.fetchById(999)
+                               .orElse(fallback);
 
-        assertEquals("Default", user.getName());
+        assertEquals("Guest", result.getUsername());
     }
 
-    // 5️⃣ isPresent() works correctly
     @Test
-    void testIsPresentForValidAndInvalid() {
+    void testIsPresentForExistingAndNonExisting() {
 
-        Optional<User> validUser = repository.findById(1);
-        Optional<User> invalidUser = repository.findById(200);
+        Optional<Customer> present = store.fetchById(10);
+        Optional<Customer> absent = store.fetchById(888);
 
-        assertTrue(validUser.isPresent());
-        assertFalse(invalidUser.isPresent());
+        assertTrue(present.isPresent());
+        assertFalse(absent.isPresent());
     }
 }
