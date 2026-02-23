@@ -4,36 +4,36 @@ import org.junit.jupiter.api.Test;
 public class BankAccountTest {
 
     @Test
-    void testInitialBalance() {
-        BankAccount account = new BankAccount(1000);
-        assertEquals(1000, account.getBalance());
+    void testOpeningBalance() {
+        BankAccount acc = new BankAccount(1000);
+        assertEquals(1000, acc.getBalance());
     }
 
     @Test
-    void testDeposit() {
-        BankAccount account = new BankAccount(1000);
-        account.deposit(500);
-        assertEquals(1500, account.getBalance());
+    void testDepositAmount() {
+        BankAccount acc = new BankAccount(1000);
+        acc.deposit(500);
+        assertEquals(1500, acc.getBalance());
     }
 
     @Test
-    void testDepositNegative() {
-        BankAccount account = new BankAccount(1000);
+    void testNegativeDeposit() {
+        BankAccount acc = new BankAccount(1000);
         assertThrows(IllegalArgumentException.class,
-                () -> account.deposit(-200));
+                () -> acc.deposit(-200));
     }
 
     @Test
-    void testWithdraw() {
-        BankAccount account = new BankAccount(1000);
-        account.withdraw(400);
-        assertEquals(600, account.getBalance());
+    void testWithdrawAmount() {
+        BankAccount acc = new BankAccount(1000);
+        acc.withdraw(400);
+        assertEquals(600, acc.getBalance());
     }
 
     @Test
-    void testWithdrawInsufficientBalance() {
-        BankAccount account = new BankAccount(1000);
+    void testWithdrawMoreThanBalance() {
+        BankAccount acc = new BankAccount(1000);
         assertThrows(IllegalArgumentException.class,
-                () -> account.withdraw(2000));
+                () -> acc.withdraw(2000));
     }
 }
