@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class MultiStudentGradeManagerTest {
 
-     MultiStudentGradeManager manager;
+    private MultiStudentGradeManager manager;
 
     @BeforeEach
     void setup() {
@@ -14,64 +14,64 @@ public class MultiStudentGradeManagerTest {
 
     @Test
     void testMultipleStudentsIndependently() {
-        manager.addStudent("Amit");
-        manager.addStudent("Rahul");
+        manager.registerStudent("Monesh");
+        manager.registerStudent("Karthik");
 
-        manager.addMarks("Amit", 50);
-        manager.addMarks("Rahul", 80);
+        manager.addStudentMarks("Monesh", 50);
+        manager.addStudentMarks("Karthik", 80);
 
-        assertEquals(50.0, manager.calculateAverage("Amit"));
-        assertEquals(80.0, manager.calculateAverage("Rahul"));
+        assertEquals(50.0, manager.getStudentAverage("Monesh"));
+        assertEquals(80.0, manager.getStudentAverage("Karthik"));
     }
 
     @Test
     void testAveragePerStudent() {
-        manager.addStudent("Amit");
-        manager.addMarks("Amit", 40);
-        manager.addMarks("Amit", 60);
+        manager.registerStudent("Monesh");
+        manager.addStudentMarks("Monesh", 40);
+        manager.addStudentMarks("Monesh", 60);
 
-        assertEquals(50.0, manager.calculateAverage("Amit"));
+        assertEquals(50.0, manager.getStudentAverage("Monesh"));
     }
 
     @Test
     void testGetResult() {
-        manager.addStudent("Amit");
-        manager.addMarks("Amit", 30);
-        manager.addMarks("Amit", 35);
+        manager.registerStudent("Monesh");
+        manager.addStudentMarks("Monesh", 30);
+        manager.addStudentMarks("Monesh", 35);
 
-        assertEquals("FAIL", manager.getResult("Amit"));
+        assertEquals("FAIL", manager.getStudentResult("Monesh"));
 
-        manager.addStudent("Rahul");
-        manager.addMarks("Rahul", 50);
-        manager.addMarks("Rahul", 60);
+        manager.registerStudent("Karthik");
+        manager.addStudentMarks("Karthik", 50);
+        manager.addStudentMarks("Karthik", 60);
 
-        assertEquals("PASS", manager.getResult("Rahul"));
+        assertEquals("PASS", manager.getStudentResult("Karthik"));
     }
 
     @Test
     void testStudentNotFound() {
         assertThrows(IllegalArgumentException.class, () -> {
-            manager.addMarks("Unknown", 50);
+            manager.addStudentMarks("Unknown", 50);
         });
     }
 
     @Test
-    void testGetTopper() {
-        manager.addStudent("Amit");
-        manager.addStudent("Rahul");
-        manager.addStudent("Sita");
+    void testFindTopper() {
+        manager.registerStudent("Monesh");
+        manager.registerStudent("Karthik");
+        manager.registerStudent("Suresh");
 
-        manager.addMarks("Amit", 60);
-        manager.addMarks("Rahul", 85);
-        manager.addMarks("Sita", 70);
+        manager.addStudentMarks("Monesh", 60);
+        manager.addStudentMarks("Karthik", 85);
+        manager.addStudentMarks("Suresh", 70);
 
-        assertEquals("Rahul", manager.getTopper());
+        assertEquals("Karthik", manager.findTopper());
     }
 
     @Test
     void testNoStudents() {
         assertThrows(IllegalStateException.class, () -> {
-            manager.getTopper();
+            manager.findTopper();
         });
     }
 }
