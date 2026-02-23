@@ -16,65 +16,59 @@ public class ShoppingCartWithDiscountTest {
     @InjectMocks
     private ShoppingCartWithDiscount cart;
 
-    // 1️⃣ Mock 10% discount
     @Test
     void testTenPercentDiscount() {
         when(discountService.getDiscountPercentage()).thenReturn(10.0);
 
-        cart.addItem("Book", 1000.0);
+        cart.addItem("Notebook", 800.0);
 
         double finalPrice = cart.getTotalPrice();
 
-        assertEquals(900.0, finalPrice);
+        assertEquals(720.0, finalPrice);
     }
 
-    // 2️⃣ Mock 0% discount
     @Test
     void testZeroPercentDiscount() {
         when(discountService.getDiscountPercentage()).thenReturn(0.0);
 
-        cart.addItem("Pen", 100.0);
+        cart.addItem("Eraser", 50.0);
 
         double finalPrice = cart.getTotalPrice();
 
-        assertEquals(100.0, finalPrice);
+        assertEquals(50.0, finalPrice);
     }
 
-    // 3️⃣ Mock 50% discount
     @Test
     void testFiftyPercentDiscount() {
         when(discountService.getDiscountPercentage()).thenReturn(50.0);
 
-        cart.addItem("Laptop", 2000.0);
+        cart.addItem("Tablet", 3000.0);
 
         double finalPrice = cart.getTotalPrice();
 
-        assertEquals(1000.0, finalPrice);
+        assertEquals(1500.0, finalPrice);
     }
 
-    // 4️⃣ Verify getDiscountPercentage() called exactly once
     @Test
     void testDiscountMethodCalledOnce() {
-        when(discountService.getDiscountPercentage()).thenReturn(10.0);
+        when(discountService.getDiscountPercentage()).thenReturn(15.0);
 
-        cart.addItem("Book", 1000.0);
+        cart.addItem("Notebook", 1000.0);
 
         cart.getTotalPrice();
 
         verify(discountService, times(1)).getDiscountPercentage();
     }
 
-    // 5️⃣ Multiple items with discount
     @Test
     void testMultipleItemsWithDiscount() {
-        when(discountService.getDiscountPercentage()).thenReturn(20.0);
+        when(discountService.getDiscountPercentage()).thenReturn(25.0);
 
-        cart.addItem("Laptop", 1000.0);
-        cart.addItem("Mouse", 500.0);
+        cart.addItem("Monitor", 2000.0);
+        cart.addItem("Keyboard", 1000.0);
 
         double finalPrice = cart.getTotalPrice();
 
-        // Total = 1500, 20% discount = 300
-        assertEquals(1200.0, finalPrice);
+        assertEquals(2250.0, finalPrice);
     }
 }
