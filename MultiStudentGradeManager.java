@@ -3,69 +3,55 @@ import java.util.Map;
 
 public class MultiStudentGradeManager {
 
-     Map<String, StudentGradeCalculator> students = new HashMap<>();
+    private Map<String, StudentGradeCalculator> studentMap = new HashMap<>();
 
-    // Add new student
-    public void addStudent(String name) {
-        if (students.containsKey(name)) {
+    public void registerStudent(String studentName) {
+        if (studentMap.containsKey(studentName)) {
             throw new IllegalArgumentException("Student already exists");
         }
-        students.put(name, new StudentGradeCalculator());
+        studentMap.put(studentName, new StudentGradeCalculator());
     }
 
-    // Add marks for specific student
-    public void addMarks(String name, int marks) {
-        StudentGradeCalculator calculator = students.get(name);
-
-        if (calculator == null) {
+    public void addStudentMarks(String studentName, int score) {
+        StudentGradeCalculator calc = studentMap.get(studentName);
+        if (calc == null) {
             throw new IllegalArgumentException("Student not found");
         }
-
-        calculator.addMarks(marks);
+        calc.addMarks(score);
     }
 
-    // Calculate average for specific student
-    public double calculateAverage(String name) {
-        StudentGradeCalculator calculator = students.get(name);
-
-        if (calculator == null) {
+    public double getStudentAverage(String studentName) {
+        StudentGradeCalculator calc = studentMap.get(studentName);
+        if (calc == null) {
             throw new IllegalArgumentException("Student not found");
         }
-
-        return calculator.calculateAverage();
+        return calc.calculateAverage();
     }
 
-    // Get result for student
-    public String getResult(String name) {
-        StudentGradeCalculator calculator = students.get(name);
-
-        if (calculator == null) {
+    public String getStudentResult(String studentName) {
+        StudentGradeCalculator calc = studentMap.get(studentName);
+        if (calc == null) {
             throw new IllegalArgumentException("Student not found");
         }
-
-        return calculator.getResult();
+        return calc.getResult();
     }
 
-    // Get topper (highest average)
-    public String getTopper() {
-
-        if (students.isEmpty()) {
+    public String findTopper() {
+        if (studentMap.isEmpty()) {
             throw new IllegalStateException("No students available");
         }
 
-        String topper = null;
-        double highestAverage = Double.MIN_VALUE;
+        String topStudent = null;
+        double maxAverage = Double.MIN_VALUE;
 
-        for (Map.Entry<String, StudentGradeCalculator> entry : students.entrySet()) {
-
+        for (Map.Entry<String, StudentGradeCalculator> entry : studentMap.entrySet()) {
             double avg = entry.getValue().calculateAverage();
-
-            if (avg > highestAverage) {
-                highestAverage = avg;
-                topper = entry.getKey();
+            if (avg > maxAverage) {
+                maxAverage = avg;
+                topStudent = entry.getKey();
             }
         }
 
-        return topper;
+        return topStudent;
     }
 }
