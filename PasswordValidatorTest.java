@@ -4,32 +4,32 @@ import org.junit.jupiter.api.Test;
 public class PasswordValidatorTest {
 
     @Test
-    void testValidPassword() {
-        PasswordValidator validator = new PasswordValidator();
-        assertTrue(validator.isValid("Abcdef1@"));
+    void testStrongPassword() {
+        PasswordValidator checker = new PasswordValidator();
+        assertTrue(checker.isValid("Xyzabc9#"));
     }
 
     @Test
-    void testShortPassword() {
-        PasswordValidator validator = new PasswordValidator();
-        assertFalse(validator.isValid("Ab1@"));
+    void testTooShortPassword() {
+        PasswordValidator checker = new PasswordValidator();
+        assertFalse(checker.isValid("Xy9#"));
     }
 
     @Test
-    void testNoUppercase() {
-        PasswordValidator validator = new PasswordValidator();
-        assertFalse(validator.isValid("abcdef1@"));
+    void testMissingUppercase() {
+        PasswordValidator checker = new PasswordValidator();
+        assertFalse(checker.isValid("xyzabc9#"));
     }
 
     @Test
-    void testNoDigit() {
-        PasswordValidator validator = new PasswordValidator();
-        assertFalse(validator.isValid("Abcdefg@"));
+    void testMissingDigit() {
+        PasswordValidator checker = new PasswordValidator();
+        assertFalse(checker.isValid("Xyzabcd#"));
     }
 
     @Test
-    void testNoSpecialCharacter() {
-        PasswordValidator validator = new PasswordValidator();
-        assertFalse(validator.isValid("Abcdef12"));
+    void testMissingSpecialCharacter() {
+        PasswordValidator checker = new PasswordValidator();
+        assertFalse(checker.isValid("Xyzabc12"));
     }
 }
